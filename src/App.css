@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@500&family=Inter:wght@400;500;600&family=Montserrat:wght@300;500&family=Roboto&family=Teko:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+}
+
+#root {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+
+body{
+    background: #0f2322;
+    color: #ffff;
+}
+
+
+button {
+  border-radius: 15px;
+  border: 1px solid transparent;
+  font-size: 1.2em;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+
+h1 {
+    font-family: Montserrat;
+    font-size: 4.5rem;
+    font-weight: 500;
+}
+
+.subtit {
+    font-family: Montserrat;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.subtitAnim {
+    font-family: Montserrat;
+    font-size: 1.2rem;
+    font-weight: 100;
+    color:lightyellow;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.subtitAnim.visivel {
+    opacity: 1;
+}
+
+
+.gradientContainer {    
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    mask-image: linear-gradient(
+        to bottom, transparent 90%, black 90%, black 90%, transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom, transparent 10%, black 25%, black 70%, transparent 90%
+    );
+}
+
+.inputfontStyle {
+    color: rgb(206, 206, 206);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+}
+
+.textButtonCuston {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #c586c0;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: medium;
+}
+.textButtonCuston:hover {
+    color: #86c589;
+}
+
+
+.loguinTable {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 10%;
+}
+
+
+.containerlogin{
+    max-width: 70%;
+    border-radius: 30px;
+    background: linear-gradient(to left, rgba(124, 199, 136, 0.4), rgba(197, 134, 192, 0.4));
+    font-family: Montserrat;
+    font-size: 2rem;
+    color: rgb(206, 206, 206);
+    display: inline-block;
+    position: relative;
+    padding: 1rem;
+}
+
+
+input {
+    font-size: 1.5ch;
+    padding: 5px;
+    border-radius: 20px;
+    border: 4px solid rgba(0, 0, 0, 0.199);
+    background-color: rgba(153, 153, 153, 0.315);
+}
+input:hover {
+  border-color: #646cff;
+}
+input:focus {
+  border-color: orange; /* Quando o usuário estiver digitando ou o input estiver selecionado */
+  outline: none; /* Remove o contorno azul padrão (opcional) */
+}
+
+
+.homeDisplayItens{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.roomsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px; /* espaçamento entre os cards */
+  padding: 16px;
+}

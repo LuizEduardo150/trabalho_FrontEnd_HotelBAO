@@ -1,0 +1,58 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: #0f1f1e;
+    padding: 2px;
+}
+
+.container:hover{
+    background: linear-gradient(to right, #c586c0 30%, #7cc788 100%);
+    h1{
+        color: #c586c0;
+    }
+    .price{
+        color: #c586c0;
+    }
+}
+
+.Innercontainer{
+    height: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #0f1f1e;
+    text-align: left;
+    
+}
+
+.title{
+    font-size: large;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    color: #7cc788;
+    max-width: 90%;
+}
+
+.bedIcon{
+    color: #a1bba5;
+    padding-right: 10px;
+}
+
+.roonsize{
+    color: #a1bba5;
+}
+
+.stars{
+    color: rgb(190, 190, 125);
+    padding-bottom: 10px;
+}
+
+.price{
+    color: #4ae263;
+    padding-top: 20px;    
+}
+
+.imageContainer{
+    border-radius: 15px;
+    width: 100%;
+}
