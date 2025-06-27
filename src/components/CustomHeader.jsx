@@ -1,13 +1,54 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import './Header.css';
 
 import { useNavigate } from 'react-router-dom';
 
+import { AuthProvider } from '../AuthProvider';
+
 function Header() {
+  // variáveis de contexto (global)
+  const global = useContext(AuthProvider)
+  const [auth, setAuth] = global.authstatus
+  const [userNameV, setUserNameV] = global.userNameVar
+  const [realNameV, setRealNameV] = global.userRealNameVar
+
   const [hidden, setHidden] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const navigate = useNavigate();
+  
+  function getButtons(auth) {
+    switch (auth) {
+      case 'guest':
+        return (
+          <div>
+            <button onClick={goLogin} style={{background:'#7cc788'}}>Login</button>
+            <button  onClick={goRegister} style={{background:'#c586c0', color:'#081c00'}}>Cadastre-se</button>
+          </div>
+        );
+      case 'client':
+        return (
+          <div>
+            <span className='userName'>{realNameV}</span>
+            <button className='userButtonCuston'>
+              <img className='imgUser' src="./src/assets/pictureIcon.png" alt="Avatar"/>
+            </button>
+          </div>
+        );
+      case 'admin':
+        return (
+          <div>
+            <span className='admLogo'>Admin</span>
+            <span className='userName'>{realNameV}</span>
+            <button className='userButtonCuston'>
+              <img className='imgUser' src="./src/assets/pictureIcon.png" alt="Avatar"/>
+            </button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  }
 
   const goLogin = () => {
     navigate('/login');
@@ -41,11 +82,8 @@ function Header() {
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
-      <img className='logo' src="/src/assets/hblogo.png" alt="Logo" />
-      <div className="buttons">
-        <button onClick={goLogin} style={{background:'#7cc788'}}>Login</button>
-        <button  onClick={goRegister} style={{background:'#c586c0', color:'#081c00'}}>Cadastre-se</button>
-      </div>
+    <img className='logo' src="/src/assets/hblogo.png" alt="Logo" />
+    <div className="buttons"> {getButtons(auth)} </div>
     </header>
   );
 }

@@ -39,7 +39,39 @@
 }
 
 .buttons button {
-    margin-left: 10px;
-    padding: 8px 16px;
+  align-items: center;
+  margin-left: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.imgUser{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.userButtonCuston {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #c586c0;
+    text-decoration: underline;
     cursor: pointer;
+    font-size: medium;
+}
+
+.userName{
+  color: #7cc788;
+}
+
+.admLogo{
+  margin-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 4px;
+  color: #c586c0;
+  background-color: #362235;
 }

@@ -37,7 +37,7 @@ const FilterComponent = () => {
         </button>
 
         
-        <div class="tooltip">Filtro de exibição</div>
+        <div className="tooltip">Filtro de exibição</div>
 
     </div>
   )

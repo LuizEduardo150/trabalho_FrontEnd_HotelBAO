@@ -1,50 +1,91 @@
-import { React, useState } from 'react'
+import { React, useState, useContext} from 'react'
 import '/src/App.css'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthProvider } from '../AuthProvider';
 
 const Login = () => {
-  
+  // variáveis de contexto (global)
+  const global = useContext(AuthProvider)
+  const [auth, setAuth] = global.authstatus
+  const [userNameV, setUserNameV] = global.userNameVar
+  const [realNameV, setRealNameV] = global.userRealNameVar
+
+  //variáveis de controle da página
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const navigate = useNavigate();
 
-  const goRegister = () => {
-    navigate('/register')
-  }
+  // mensagem enviada para TOAST (notificacao)
+  const sendToastMessage = (code, message) => {
+    if (code === 1){
+      toast.error(message, {
+        autoClose: 3000,
+        style:{
+           backgroundColor: '#222',
+            color: '#fff',
+            fontWeight: 'bold'
+        }
+      });
 
+    }else if (code === 0){
+
+      toast.success(message, {
+        autoClose: 3000,
+        style:{
+            backgroundColor: '#222',
+            color: '#fff',
+            fontWeight: 'bold'
+        }
+      
+      });
+
+    }
+  };
+
+  // envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault(); // evita recarregar a página
-    console.log('Usuário:', usuario);
-    console.log('Senha:', senha);
-    
-    
-
-    fetch('http://localhost:8080/client', {
+    fetch('http://localhost:8080/client/login', {
       method: 'POST',
       
       headers: {'Content-Type': 'application/json'},
       
       body: JSON.stringify({
-            userName: "Luiz ed",
-            password: "123",
-            email: "luiz@gmail.com",
-            phone: "31313131",
-            realName: "Luiz Eduardo",
-            address: "tenente helin",
-            addressNumber: "290",
-            district: "Santa cruz",
-            userType: "client"
-  })
-  })
-  .then(response => response.json())
-  .then(data => console.log('User created:', data))
-  .catch(error => console.error('Error creating user:', error));
+        userName: usuario,
+        password: senha
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 404){
+          throw new Error("Erro de rota");
+        } else if (response.status === 401){
+          sendToastMessage(1, "Credenciais inválidas!");
+          setUsuario("");
+          setSenha("");
+          throw new Error("usuário não encontrado");
+        }
+        else{
+          sendToastMessage(1, "Erro na requisição");
+          setUsuario("");
+          setSenha("");
+          throw new Error(`Erro na requisição: ${response.status}`);
+        }
+      }
+      
+      return response.json()
+    })
+    .then(data => {
+      sendToastMessage(0, 'loguin bem sucedido');
+      setAuth(data.userRole);
+      setRealNameV(data.realName)
+      setUserNameV(data.userName)
+      navigate('/')
+    })
+    .catch(error => console.error('Erro ao edetuar loguin', error));
 
-
-
-    // API comunicacao .... TODO!
   };
-  
 
     return (
     <div className='loguinTable'>
@@ -100,7 +141,7 @@ const Login = () => {
                     Entrar
                   </button>
                   <button type='button' className='textButtonCuston' style={{paddingTop:'20px'}}
-                    onClick={goRegister}
+                    onClick={() => navigate('/register')}
                   >
                     Não tem uma conta ainda? Registre - se aqui
                   </button>

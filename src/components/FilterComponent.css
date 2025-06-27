@@ -38,6 +38,7 @@
 
 .individualButton:hover{
     color: #00ff2a;
+    cursor: pointer;
 }
 
 .tooltip {
