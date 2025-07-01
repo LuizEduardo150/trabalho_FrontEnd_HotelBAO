@@ -1,8 +1,11 @@
 import {React, useState} from 'react'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 import '/src/App.css'
 
-const RegisterUser = () => {
 
+const RegisterUser = () => {
     const [userName, setUserName] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -11,15 +14,78 @@ const RegisterUser = () => {
     const [adress, setAdress] = useState('');
     const [number, setNumber] = useState('');
     const [city, setCity] = useState('');
+    const navigate = useNavigate();
 
+    // mensagem enviada para TOAST (notificacao)
+      const sendToastMessage = (code, message, time=3000) => {
+        if (code === 1){
+          toast.error(message, {
+            autoClose: time,
+            style:{
+               backgroundColor: '#222',
+                color: '#fff',
+                fontWeight: 'bold'
+            }
+          });
+    
+        }else if (code === 0){
+    
+          toast.success(message, {
+            autoClose: time,
+            style:{
+                backgroundColor: '#222',
+                color: '#fff',
+                fontWeight: 'bold'
+            }
+          
+          });
+    
+        }
+      };
+    
 
-    const handleSubmit = (e) => {
+    // Envio do formulário 
+    const handleSubmit = (e) => {        
         e.preventDefault(); // evita recarregar a página
-        console.log('Usuário:', usuario);
-        console.log('Senha:', senha);
         
-        // API comunicacao .... TODO!
+        fetch('http://localhost:8080/client/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            
+            body: JSON.stringify({
+                userName: userName,
+                password: password,
+                email: email,
+                phone: phone,
+                realName: name,
+                address: adress,
+                addressNumber: number,
+                district: city,
+            })
+        })
+        .catch(() => { // erro de conexao com o servidor
+            sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+            return null;
+        })
+        .then(response => {
+            if (response == null){ return null;}
+            
+            if(response.status === 200){
+                sendToastMessage(0, "Conta registrada com sucesso. Faça seu login para fazer reservas.");
+                navigate('/');
+            }
+            else if(response.status === 400){
+                sendToastMessage(1, "Escolha outro nome de usuário!", 10000);
+                setUserName("");
+            }
+            else if(response.status === 500){
+                sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+            }
+
+            console.log(response)
+        })
     };
+
 
 
     return (
@@ -48,9 +114,8 @@ const RegisterUser = () => {
                 <input className='inputfontStyle'
                     required
                     type="text" 
-                    //value={usuario}
-                    //onChange={(e) => setUsuario(e.target.value)}
-                    
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
                 
                 <span style={{paddingTop:'2.5%'}}/>
@@ -60,8 +125,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                     type="text" 
-                    //value={usuario}
-                    //onChange={(e) => setUsuario(e.target.value)}
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                     required
                 />
 
@@ -72,8 +137,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                         type="text" 
-                        //value={usuario}
-                        //onChange={(e) => setUsuario(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                 />
                 
@@ -84,8 +149,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                         type="text" 
-                        //value={usuario}
-                        //onChange={(e) => setUsuario(e.target.value)}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                 />
 
@@ -96,8 +161,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                         type="text" 
-                        //value={usuario}
-                        //onChange={(e) => setUsuario(e.target.value)}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         required
                 />
 
@@ -108,8 +173,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                         type="text" 
-                        //value={usuario}
-                        //onChange={(e) => setUsuario(e.target.value)}
+                        value={adress}
+                        onChange={(e) => setAdress(e.target.value)}
                         required
                 />
 
@@ -120,8 +185,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                         type="number" 
-                        //value={usuario}
-                        //onChange={(e) => setUsuario(e.target.value)}
+                        value={number}
+                        onChange={(e) => setNumber(e.target.value)}
                         required
                 />
 
@@ -132,8 +197,8 @@ const RegisterUser = () => {
                 </p>
                 <input className='inputfontStyle'
                         type="text" 
-                        //value={usuario}
-                        //onChange={(e) => setUsuario(e.target.value)}
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
                         required
                 />
 
@@ -145,8 +210,6 @@ const RegisterUser = () => {
                         fontSize: '2rem'
                     }}
                     type='submit'
-                    onClick={()=> {}}
-                
                 >
                     Concluir cadastro
                 </button>
