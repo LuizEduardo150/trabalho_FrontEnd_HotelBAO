@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import '/src/App.css';
 import RoomTable from '/src/components/RoomTable';
 import  Header  from '/src/components/CustomHeader';
 import FilterComponent from '/src/components/FilterComponent';
-
+import ErrorComponent from '/src/components/ErrorComponent';
 
 function Home() {
   const [mostrarSubtitulo, setMostrarSubtitulo] = useState(false);
-
+  const [rooms, setRooms] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  
+  // subtítulo com atraso de carregamento
   useEffect(() => {
-    // subtítulo com atraso de carregamento
     const timer = setTimeout(() => {
       setMostrarSubtitulo(true);
     }, 500);
@@ -18,25 +20,72 @@ function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+
+  // subtitulo com atraso de scrolling
   useEffect(() => {
-    // subtitulo com atraso de scrolling
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY > 400) {
         setMostrarSubtitulo(false);
       } else {
         setMostrarSubtitulo(true);
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
     
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  
+
+
+  //Refresh
+  const handleRefresh = () => {
+    setRefresh(prev => !prev);
+  };
+
+
+  // Fazer requisição com BackEnd
+  useEffect(()=> {
+    const loadRooms = async () => {
+      fetch('http://localhost:8080/room', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      }).catch((error) => {
+        // erro de conexao com o servidor
+        setRooms([]);
+        return null;
+      })
+      .then(response => {
+        if (response == null){ return null;}  
+        return response.json()
+      })
+      .then(data => {
+        if (data == null){ return null;}
+          setRooms(data);
+      })
+    }
+    
+    loadRooms();
+  }, [refresh]);
+
+
+  // Construir cards dos quartos
+  const roomsTable = useMemo(() => {
+    if (rooms.length === 0){
+      return <ErrorComponent />
+    }else{
+      return rooms.map((room) => {
+        return ( <RoomTable key={room.id}
+          name={room.name}
+          price={room.price}
+          capacidade={room.numberOfBeds}
+          score = {room.score}
+          onClickfunct={() => console.log(`olha funfou ?? ${room.id}`) }
+        />)
+      });
+    }    
+  }, [refresh, rooms]);
+
+
   return (<div>
       
       <Header />
@@ -56,30 +105,15 @@ function Home() {
 
       
       <div className='homeDisplayItens'>
-        
           <FilterComponent/>
-
-          <span style={{paddingBottom:'4%'}}></span>
-
-          <div className='roomsGrid'>
-              <RoomTable  name="quarto sei la das quantas muiti fordaasd asd" price="100"
-                onClickfunct={() => console.log("olha funfou ??") } capacidade="4"
-              />
-
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-              <RoomTable  name="Quarto tal"/>
-          
-          </div>
-
-      
-      
+          <span style={{paddingBottom:'2%'}}></span>
+          <div className='roomsGrid'> { roomsTable } </div>      
+          <span style={{paddingBottom:'20px'}}></span>
+          <button onClick={handleRefresh} style={{zIndex:'100', padding:'5px', color:"black", background:'rgba(20, 255, 150, 0.5)'}}>
+             Atualizar
+          </button>
       </div>
+      
           
 
   </div>);

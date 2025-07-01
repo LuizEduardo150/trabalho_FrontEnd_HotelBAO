@@ -17,10 +17,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   // mensagem enviada para TOAST (notificacao)
-  const sendToastMessage = (code, message) => {
+  const sendToastMessage = (code, message, time=3000) => {
     if (code === 1){
       toast.error(message, {
-        autoClose: 3000,
+        autoClose: time,
         style:{
            backgroundColor: '#222',
             color: '#fff',
@@ -31,7 +31,7 @@ const Login = () => {
     }else if (code === 0){
 
       toast.success(message, {
-        autoClose: 3000,
+        autoClose: time,
         style:{
             backgroundColor: '#222',
             color: '#fff',
@@ -55,8 +55,14 @@ const Login = () => {
         userName: usuario,
         password: senha
       })
+    }).catch(() => {
+      // erro de conexao com o servidor
+      sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos!\nVolte mais tarde", 10000);
+      return null;
     })
     .then(response => {
+      if (response == null){ return null;}
+
       if (!response.ok) {
         if (response.status === 404){
           throw new Error("Erro de rota");
@@ -77,13 +83,15 @@ const Login = () => {
       return response.json()
     })
     .then(data => {
+      if (data == null){ return null;}
+
       sendToastMessage(0, 'loguin bem sucedido');
       setAuth(data.userRole);
       setRealNameV(data.realName)
       setUserNameV(data.userName)
       navigate('/')
     })
-    .catch(error => console.error('Erro ao edetuar loguin', error));
+    .catch(error => console.error(error));
 
   };
 
