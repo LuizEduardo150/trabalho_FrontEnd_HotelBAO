@@ -145,3 +145,63 @@ input:focus {
   gap: 16px; /* espaçamento entre os cards */
   padding: 16px;
 }
+
+.personalData{
+    display: flex;
+    flex-direction: column;
+    color: #86c589;
+}
+
+.personalDataButtonsSection{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.personalDataButtons{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    background-color: #86c589;
+    font-size: xx-large;
+    border-radius: 5px;
+    color: #1c2b1e;
+    width: 80%;
+}
+
+.personalDataBackButton{
+    position: fixed;
+    align-self: center;
+    width: 60%;
+    bottom: 0;
+    padding:6px;
+    background-color:#c586c0;
+    border-radius: 5px;
+    font-size: xx-large;
+    color: #1c2b1e;
+}
+
+.personalDataChangePassword{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: xx-large;
+}
+
+.personalDataChangePasswordVerifyed{
+    display: flex;
+    flex-direction: column;
+    font-size: xx-large;
+    gap:15px
+}
+
+.personalTransactions{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10%;
+    color: #86c589;
+}
+
+.personalTransactionsList{
+    font-size: xx-large;
+}

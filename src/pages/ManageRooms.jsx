@@ -47,11 +47,10 @@ const ManageRooms = () => {
 
 const styles = {
   container: {
-    padding: '60px 20px',
+    padding: '10% 20px',
     textAlign: 'center',
     color: 'white',
     minHeight: '100vh',
-    background: 'linear-gradient(to bottom, #2b2b2b, #1e1e1e)',
   },
   title: {
     fontSize: '3rem',

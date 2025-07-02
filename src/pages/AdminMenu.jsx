@@ -6,14 +6,14 @@ const AdminMenu = () => {
   const navigate = useNavigate();
 
   const actions = [
-    { label: '1 - Cadastro de Cliente', onClick: () => navigate('/admin/ManageUser') },
-    { label: '2 - Cadastro de Quarto', onClick: () => navigate('/admin/rooms') },
-    { label: '3 - Lançamento de Estadias', onClick: () => alert('Lançamento de Estadias') },
-    { label: '4 - Listar dados dos Clientes', onClick: () => alert('Listar Clientes') },
-    { label: '5 - Listar dados dos Quartos', onClick: () => alert('Listar Quartos') },
-    { label: '6 - Listar Estadias cadastradas', onClick: () => alert('Listar Estadias') },
-    { label: '7 - Emitir nota Fiscal', onClick: () => alert('Emitir Nota Fiscal') },
-    { label: '8 - Limpar banco de dados', onClick: () => {
+    { label: 'Cadastro de Cliente', onClick: () => navigate('/admin/ManageUser') },
+    { label: 'Cadastro de Quarto', onClick: () => navigate('/admin/rooms') },
+    { label: 'Lançamento de Estadias', onClick: () => alert('Lançamento de Estadias') },
+    { label: 'Listar dados dos Clientes', onClick: () => alert('Listar Clientes') },
+    { label: 'Listar dados dos Quartos', onClick: () => alert('Listar Quartos') },
+    { label: 'Listar Estadias cadastradas', onClick: () => alert('Listar Estadias') },
+    { label: 'Emitir nota Fiscal', onClick: () => alert('Emitir Nota Fiscal') },
+    { label: 'Limpar banco de dados', onClick: () => {
       const confirmar = confirm("Tem certeza que deseja apagar todo o banco de dados?");
       if (confirmar) alert('Banco de dados apagado!');
     }},
@@ -46,11 +46,10 @@ const AdminMenu = () => {
 
 const styles = {
   container: {
-    padding: '60px 20px',
+    padding: '10% 20px',
     textAlign: 'center',
     color: 'white',
     minHeight: '100vh',
-    background: 'linear-gradient(to bottom, #2b2b2b, #1e1e1e)',
   },
   title: {
     fontSize: '3rem',

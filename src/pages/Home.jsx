@@ -49,7 +49,7 @@ function Home() {
       fetch('http://localhost:8080/room', {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
-      }).catch((error) => {
+      }).catch(() => {
         // erro de conexao com o servidor
         setRooms([]);
         return null;
@@ -88,8 +88,6 @@ function Home() {
 
 
   return (<div>
-      
-      <Header />
       
       <main className='gradientContainer'>
           <img src="/src/assets/htl.png" style={styles.bgImage} />
