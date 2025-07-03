@@ -5,21 +5,25 @@ import '/src/App.css';
 const AdminMenu = () => {
   const navigate = useNavigate();
 
+  function requestDeleteBD(){
+      const confirmar = confirm("Tem certeza que deseja apagar todo o banco de dados?");
+      if (confirmar)
+        alert('Banco de dados deve ser apagado!');
+      // TODO ....
+  }
+
+  
   const actions = [
     { label: 'Cadastro de Cliente', onClick: () => navigate('/admin/ManageUser') },
     { label: 'Cadastro de Quarto', onClick: () => navigate('/admin/rooms') },
     { label: 'Lançamento de Estadias', onClick: () => alert('Lançamento de Estadias') },
     { label: 'Listar dados dos Clientes', onClick: () => alert('Listar Clientes') },
-    { label: 'Listar dados dos Quartos', onClick: () => alert('Listar Quartos') },
     { label: 'Listar Estadias cadastradas', onClick: () => alert('Listar Estadias') },
     { label: 'Emitir nota Fiscal', onClick: () => alert('Emitir Nota Fiscal') },
-    { label: 'Limpar banco de dados', onClick: () => {
-      const confirmar = confirm("Tem certeza que deseja apagar todo o banco de dados?");
-      if (confirmar) alert('Banco de dados apagado!');
-    }},
-    { label: '9 - Relatório - Maior valor da estadia do cliente', onClick: () => alert('Relatório Maior Valor') },
-    { label: '10 - Relatório - Menor valor da estadia do cliente', onClick: () => alert('Relatório Menor Valor') },
-    { label: '11 - Relatório - Totalizar as estadias do cliente', onClick: () => alert('Relatório Totalizador') },
+    { label: 'Relatório - Maior valor da estadia do cliente', onClick: () => alert('Relatório Maior Valor') },
+    { label: 'Relatório - Menor valor da estadia do cliente', onClick: () => alert('Relatório Menor Valor') },
+    { label: 'Relatório - Totalizar as estadias do cliente', onClick: () => alert('Relatório Totalizador') },
+    { label: 'Limpar banco de dados', onClick: () => requestDeleteBD()}
   ];
 
   return (

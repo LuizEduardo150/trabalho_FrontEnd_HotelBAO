@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import './App.css'
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+//import 'react-toastify/dist/ReactToastify.css';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import RegisterUser from './pages/RegisterUser';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './AuthProvider';
 import AdminMenu from './pages/AdminMenu'
 import ManageRooms from './pages/ManageRooms'
 import ManageUser from './pages/ManageUser'
-import CustonHeader from './components/CustomHeader';
 import PersonalData from './pages/PersonalData';
 import UserTransactions from './pages/UserTransactions';
 import PrivateRoute from './PrivateRoute';
 import PrivateRouteADM from './PrivateRouteADM';
+import RoomPage from './pages/RoomPage';
+import CustonHeader from './components/CustomHeader';
 
 
 function App() {
@@ -28,6 +28,8 @@ function App() {
         <Route path='/login' element={<Login />} />
         
         <Route path='/Register' element={<RegisterUser />} />
+
+        <Route path='/room/:id' element={< RoomPage/>} />
         
         <Route path='/transactions' element={<PrivateRoute><UserTransactions /> </PrivateRoute>} />
         

@@ -205,3 +205,22 @@ input:focus {
 .personalTransactionsList{
     font-size: xx-large;
 }
+
+.roomPage{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10%;
+    color: #86c589;
+}
+
+.editRoomsSelect{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: xx-large;
+    padding: 10px;
+    border-radius: 10px;
+    color: #c2c2c2;    
+    background-color: #c586c0;
+    background-color: rgba(200, 255, 255, 0.2);
+}

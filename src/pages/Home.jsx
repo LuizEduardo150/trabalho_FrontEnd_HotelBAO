@@ -1,16 +1,18 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import '/src/App.css';
 import RoomTable from '/src/components/RoomTable';
-import  Header  from '/src/components/CustomHeader';
 import FilterComponent from '/src/components/FilterComponent';
 import ErrorComponent from '/src/components/ErrorComponent';
+
+import '/src/App.css';
 
 function Home() {
   const [mostrarSubtitulo, setMostrarSubtitulo] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  
+  const navigate = useNavigate();
+
   // subtítulo com atraso de carregamento
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -80,7 +82,7 @@ function Home() {
           price={room.price}
           capacidade={room.numberOfBeds}
           score = {room.score}
-          onClickfunct={() => console.log(`olha funfou ?? ${room.id}`) }
+          onClickfunct={() => navigate(`room/${room.id}`)}
         />)
       });
     }    
