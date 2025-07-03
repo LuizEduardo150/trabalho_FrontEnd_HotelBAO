@@ -2,15 +2,12 @@ import { React, useState, useContext} from 'react'
 import '/src/App.css'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { AuthProvider } from '../AuthProvider';
+import { useAuth } from '../AuthProvider';
 
 const Login = () => {
   // variáveis de contexto (global)
-  const global = useContext(AuthProvider)
-  const [auth, setAuth] = global.authstatus
-  const [userNameV, setUserNameV] = global.userNameVar
-  const [realNameV, setRealNameV] = global.userRealNameVar
-
+  const {login, setRealName, setAuth, setUserName} = useAuth();
+  
   //variáveis de controle da página
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -87,8 +84,9 @@ const Login = () => {
 
       sendToastMessage(0, 'loguin bem sucedido');
       setAuth(data.userRole);
-      setRealNameV(data.realName)
-      setUserNameV(data.userName)
+      setRealName(data.realName);
+      setUserName(data.userName);
+      login();
       navigate('/')
     })
     .catch(error => console.error(error));

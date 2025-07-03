@@ -1,28 +1,42 @@
 import { useEffect, useState, useContext } from 'react';
 import './Header.css';
 
-import { useNavigate } from 'react-router-dom';
-
-import { AuthProvider } from '../AuthProvider';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../AuthProvider';
 
 function Header() {
-  // variáveis de contexto (global)
-  const global = useContext(AuthProvider)
-  const [auth, setAuth] = global.authstatus
-  const [userNameV, setUserNameV] = global.userNameVar
-  const [realNameV, setRealNameV] = global.userRealNameVar
+  
+  
+  //useAuth.isAuthenticated
+  const { auth, realName, logout } = useAuth();
+  const realNameV = realName;
 
+  // itens da página
   const [hidden, setHidden] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [showTableOptions, setShowTableOptions] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const navigate = useNavigate();
   
+  // outros
+  const location = useLocation();
+
+
+  function showOptionsButtons(){
+    if (showTableOptions){
+      setShowTableOptions(false);
+    }else{
+      setShowTableOptions(true);
+    }
+
+  }
+
   function getButtons(auth) {
     switch (auth) {
       case 'guest':
         return (
           <div>
-            <button onClick={goLogin} style={{background:'#7cc788'}}>Login</button>
+            <button onClick={goLogin} style={{background:'#7cc788'}}>Login</button>            
             <button  onClick={goRegister} style={{background:'#c586c0', color:'#081c00'}}>Cadastre-se</button>
           </div>
         );
@@ -30,7 +44,7 @@ function Header() {
         return (
           <div>
             <span className='userName'>{realNameV}</span>
-            <button className='userButtonCuston'>
+            <button className='userButtonCuston' onClick={showOptionsButtons}>
               <img className='imgUser' src="./src/assets/pictureIcon.png" alt="Avatar"/>
             </button>
           </div>
@@ -40,7 +54,7 @@ function Header() {
           <div>
             <span className='admLogo'>Admin</span>
             <span className='userName'>{realNameV}</span>
-            <button className='userButtonCuston'>
+            <button className='userButtonCuston' onClick={showOptionsButtons}>
               <img className='imgUser' src="./src/assets/pictureIcon.png" alt="Avatar"/>
             </button>
           </div>
@@ -58,12 +72,22 @@ function Header() {
     navigate('/register')
   }
 
+  const logoutFunction = ()=> {
+    if (showTableOptions)
+        setShowTableOptions(false);    
+    logout();
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY && !hovering) {
         setHidden(true);
+        if (showTableOptions){
+          setShowTableOptions(false);
+        }
+
       } else {
         setHidden(false);
       }
@@ -77,15 +101,54 @@ function Header() {
   }, [lastScrollY, hovering]);
 
   return (
-    <header
+    <div
       className={`header ${hidden ? 'hidden' : ''}`}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
-    <img className='logo' src="/src/assets/hblogo.png" alt="Logo" />
-    <div className="buttons"> {getButtons(auth)} </div>
-    </header>
+    
+      <div className='headerContent'>
+      
+        <button className='iconButton' onClick={()=>{
+            if (location.pathname !== '/')
+              navigate("/")
+        }}>
+          <img className='logo' src="/src/assets/hblogo.png" alt="Logo" />
+        </button>
+        <div className="buttons"> {getButtons(auth)} </div>
+      
+      </div>
+
+      <div className='afterLine'></div>
+      
+      {
+        showTableOptions ?
+          <div className='tableButtons'>
+              {
+                auth === 'admin' ? 
+                  <button className='admButton' onClick={()=>{navigate('/admin')}}>Administrativo</button>
+                  : 
+                  null
+              }
+              
+              <button className='otherButtons' onClick={()=>{navigate('/personaldata')}}>
+                📝 Dados pessoais
+              </button>
+
+              <button className='otherButtons' onClick={()=>{navigate('transactions')}}>
+                🗒️Relatórios<span style={{color:'transparent'}}>........</span>
+              </button>
+              
+              <span style={{padding:'10px'}}></span>
+              
+              <button onClick={logoutFunction} className='disconectButton'>Desconectar</button>
+          </div>
+        : null
+      }
+
+    </div>
   );
+
 }
 
 export default Header;
