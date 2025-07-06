@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import { FaStar, FaBed } from 'react-icons/fa';
 import {sendToastMessage} from '/src/components/ToastMensage';
-import { getAllRooms } from '../queryFunctions/RoomQuery';
+import { getAllRooms, deleteRoomsServer, insertRoomServer, updateRoomByIdServer } from '../queryFunctions/RoomQuery';
 
 import '/src/App.css';
 
@@ -15,6 +15,8 @@ const ManageRooms = () => {
   const [price, setPrice] = useState('');
   const [rooms, setRooms] = useState([]);
   const [inserMode, setInsertMode] = useState(false);
+  const [update, forceUpdate] = useState(false);
+  const [id, setId] = useState('');
 
   const navigate = useNavigate();
 
@@ -56,17 +58,23 @@ const ManageRooms = () => {
         }
 
         default:{
-          console.log("n sei : " + menu)
           navigate('/');
         }
       }  
   }
 
-  function deleteRoom(index){
-    console.log("Vamos deletar o quarto de id: "+ index)
-    console.log(rooms[index])
+  // função para mapear os botôes de cada quarto para remocao
+  async function deleteRoom(index){
+    if(rooms[index] !== null){
+      var ret = await deleteRoomsServer(rooms[index].id);
+      if(ret){
+        rooms[index] = null;
+        forceUpdate(prev => !prev);
+      }
+    }
   }
 
+  // função para mapear os botôes de cada quarto
   function editRoom(index){
     console.log("Vamos editar o quarto de id: "+ index)
     console.log(rooms[index])
@@ -75,49 +83,25 @@ const ManageRooms = () => {
     setName(rooms[index].name);
     setPrice(rooms[index].price);
     setBeds(rooms[index].numberOfBeds);
-    setScore(rooms[index].score)
+    setScore(rooms[index].score);
+    setId(rooms[index].id);
+    
   }
 
   async function editRoomServer(){
-    console.log("Vamos editar no serviodr agora ...")
-    // todo
-
+    var ret = await updateRoomByIdServer(id, nameR, price, beds, score);
+    if(ret){
+      setMenu("main");
+    }
   }
 
   async function insertRoom(){
-    fetch('http://localhost:8080/room', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            
-            body: JSON.stringify({
-                name: nameR,
-                price: price,
-                numberOfBeds: beds,
-                score: score
-            })
-        })
-        .catch(() => { // erro de conexao com o servidor
-            sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
-            return null;
-        })
-        .then(response => {
-            if (response == null){ return null;}
-            
-            if(response.status === 200){
-                sendToastMessage(0, "Quarto registrado com sucesso.");
-                setMenu("main");
-            }
-            else if(response.status === 400){
-                sendToastMessage(1, "Dados Faltantes!", 10000);
-            }
-            else if(response.status === 500){
-                sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
-            }
-        })
+    var ret = await insertRoomServer(nameR, price, beds, score);
+    if(ret)
+      setMenu("main");
   }
 
-
-  function getPageContent(){
+  const getPageContent = useMemo(()=>{
       switch (menu){
         case 'main':{
           return (<>
@@ -204,11 +188,11 @@ const ManageRooms = () => {
 
         case 'change':{
           return (<div style={{display:'flex', flexDirection:'column', gap:10}}>{
-            rooms.map((room, i) => (
-              <div key={room.id} className='editRoomsSelect'>
+            rooms.map((room, i) => ( room === null ? null :
+              <div key={room.id} className='editItemSelect'>
               
                 <button 
-                  style={{background:'#fffd9e'}}
+                  style={{background:'rgba(255, 255, 255, 0.35)'}}
                   onClick={()=>editRoom(i)}
                 >
                   ✏️
@@ -217,7 +201,7 @@ const ManageRooms = () => {
                 <span style={{color:'transparent'}}>..</span>
               
                 <button
-                  style={{background:'#ff6a6a'}}
+                  style={{background:'rgba(255, 0, 0, 0.2)'}}
                   onClick={()=>deleteRoom(i)}
                 >
                   🗑️
@@ -247,19 +231,25 @@ const ManageRooms = () => {
           
 
       }
-  }
+  }, [menu, nameR, score, beds, price, rooms, update]);
 
 
   return (
     <div style={styles.container}>
+      
       <h1 style={styles.title}>
         Gerenciar Quartos <br />
         <span style={{color:'#c586c0'}}>Hotel</span><span style={{color:'#7cc788'}}>BAO</span>
       </h1>
-      {getPageContent()}
+      
+      {getPageContent}
+      
+      <div style={{paddingTop:'5%'}}></div>
+      
       <button style={styles.backButton} onClick={() => goBack()}>
         🔙 Voltar para o Painel
       </button>
+
     </div>
   );
 };

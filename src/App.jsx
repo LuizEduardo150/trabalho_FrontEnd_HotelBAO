@@ -15,6 +15,7 @@ import PrivateRoute from './PrivateRoute';
 import PrivateRouteADM from './PrivateRouteADM';
 import RoomPage from './pages/RoomPage';
 import CustonHeader from './components/CustomHeader';
+import UserDataChange from './pages/UserDataChange';
 
 
 function App() {
@@ -37,12 +38,14 @@ function App() {
        
         <Route path='/admin' element={<PrivateRouteADM><AdminMenu /></PrivateRouteADM>} />
        
-        <Route path='/admin/rooms' element={<PrivateRouteADM> <ManageRooms /> </PrivateRouteADM>} />
+        <Route path='/rooms' element={<PrivateRouteADM> <ManageRooms /> </PrivateRouteADM>} />
        
-        <Route path='/admin/ManageUser' element={<PrivateRouteADM>  <ManageUser /> </PrivateRouteADM>} />
+        <Route path='/ManageUser' element={<PrivateRouteADM>  <ManageUser /> </PrivateRouteADM>} />
 
-        <Route path='/admin/RegisterUser' element={<PrivateRouteADM> <RegisterUser /> </PrivateRouteADM>} />
-      
+        <Route path='/RegisterUser' element={<PrivateRouteADM> <RegisterUser /> </PrivateRouteADM>} />
+
+        <Route path='/editUserData/:obj' element={<PrivateRouteADM> <UserDataChange /> </PrivateRouteADM>} />
+
       </Routes>
     </AuthProvider>
   );

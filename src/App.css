@@ -213,14 +213,83 @@ input:focus {
     color: #86c589;
 }
 
-.editRoomsSelect{
+.editItemSelect{
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: xx-large;
     padding: 10px;
     border-radius: 10px;
-    color: #c2c2c2;    
-    background-color: #c586c0;
+    color: #c2c2c2;
     background-color: rgba(200, 255, 255, 0.2);
+    gap:1%
 }
+
+.containerWithCenterItens{
+    display: flex;
+    border-radius: 5px;
+    align-items: center;
+    padding: 1%;
+    width: 100%;
+    font-size: xx-large;
+    background-color: rgba(255, 255, 255, 0.2);
+
+    p{
+        padding-bottom: 2%;
+    }
+
+    span{
+        color: rgb(154, 185, 166);
+    }
+}
+
+.lowButtonProfile{
+    border-radius: 5px;
+    margin-right: 2%;
+    padding: 10px;
+}
+
+.cofirmButton{
+    background: #86c589;
+    color: #253626;
+    
+}
+
+.cancelButton{
+    background: #c586c0;
+    color: #2c1e2b;
+}
+
+.parcial {
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+}
+
+.ocupped{
+    background-color: rgb(88, 40, 48);
+    color: white;
+    border-radius: 5px;
+    font-size: xx-large;
+}
+
+
+.roomExibitionPage{
+    display: flex;
+    border-radius: 20px;
+    padding: 10px;
+    flex-direction: column;
+    background: rgba(80, 80, 80, 0.322);
+    font-size: xx-large;
+}
+
+.roomPhotoContainer{
+    height: 40rem;
+    align-self: center;
+}
+
+.roomPhotoContainer img {
+    height: 100%;
+    border-radius: 20px;
+}
+

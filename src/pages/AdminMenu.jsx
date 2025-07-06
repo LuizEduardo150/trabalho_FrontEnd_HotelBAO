@@ -14,10 +14,9 @@ const AdminMenu = () => {
 
   
   const actions = [
-    { label: 'Cadastro de Cliente', onClick: () => navigate('/admin/ManageUser') },
-    { label: 'Cadastro de Quarto', onClick: () => navigate('/admin/rooms') },
+    { label: 'Cadastro de Usuários', onClick: () => navigate('/ManageUser') },
+    { label: 'Cadastro de Quartos', onClick: () => navigate('/rooms') },
     { label: 'Lançamento de Estadias', onClick: () => alert('Lançamento de Estadias') },
-    { label: 'Listar dados dos Clientes', onClick: () => alert('Listar Clientes') },
     { label: 'Listar Estadias cadastradas', onClick: () => alert('Listar Estadias') },
     { label: 'Emitir nota Fiscal', onClick: () => alert('Emitir Nota Fiscal') },
     { label: 'Relatório - Maior valor da estadia do cliente', onClick: () => alert('Relatório Maior Valor') },
