@@ -9,15 +9,13 @@ const AdminMenu = () => {
       const confirmar = confirm("Tem certeza que deseja apagar todo o banco de dados?");
       if (confirmar)
         alert('Banco de dados deve ser apagado!');
-      // TODO ....
   }
 
-  
+
   const actions = [
     { label: 'Cadastro de Usuários', onClick: () => navigate('/ManageUser') },
     { label: 'Cadastro de Quartos', onClick: () => navigate('/rooms') },
-    { label: 'Lançamento de Estadias', onClick: () => alert('Lançamento de Estadias') },
-    { label: 'Listar Estadias cadastradas', onClick: () => alert('Listar Estadias') },
+    { label: 'Listar Estadias cadastradas', onClick: () => navigate('/stays') },
     { label: 'Emitir nota Fiscal', onClick: () => alert('Emitir Nota Fiscal') },
     { label: 'Relatório - Maior valor da estadia do cliente', onClick: () => alert('Relatório Maior Valor') },
     { label: 'Relatório - Menor valor da estadia do cliente', onClick: () => alert('Relatório Menor Valor') },

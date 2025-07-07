@@ -16,7 +16,7 @@ import PrivateRouteADM from './PrivateRouteADM';
 import RoomPage from './pages/RoomPage';
 import CustonHeader from './components/CustomHeader';
 import UserDataChange from './pages/UserDataChange';
-
+import StaysExibition from './pages/StaysExibition';
 
 function App() {
   return (
@@ -45,6 +45,8 @@ function App() {
         <Route path='/RegisterUser' element={<PrivateRouteADM> <RegisterUser /> </PrivateRouteADM>} />
 
         <Route path='/editUserData/:obj' element={<PrivateRouteADM> <UserDataChange /> </PrivateRouteADM>} />
+
+        <Route path='/stays' element={<PrivateRouteADM> <StaysExibition /> </PrivateRouteADM>} />
 
       </Routes>
     </AuthProvider>

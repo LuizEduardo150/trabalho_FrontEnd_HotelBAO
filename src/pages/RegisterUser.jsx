@@ -81,8 +81,6 @@ const RegisterUser = () => {
             else if(response.status === 500){
                 sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
             }
-
-            console.log(response)
         })
     };
 
