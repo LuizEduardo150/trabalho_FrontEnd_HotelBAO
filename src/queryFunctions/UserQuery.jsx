@@ -20,6 +20,44 @@ export async function getAllUsersServer() {
       })
 }
 
+
+export async function getUserIdByUserNameServer(name) {
+  return await fetch(`http://localhost:8080/client/gt/${name}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      }).catch(() => {
+        // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe! Estamos enfrentando problemas internos. Tente novamente mais tarde.");
+        return null;
+      })
+      .then(response => {
+        if(response === null)
+          return null;
+        
+        if (response.status === 200){
+          return response.json();
+        }
+        else if (response.status === 400){
+          sendToastMessage(1, "Impossível executar esse serviço");
+          return false;
+        }
+        else if (response.status === 404){
+          sendToastMessage(1, "Usuário não encontrado");
+          return false;
+        }
+        else{
+          sendToastMessage(1, "Erro de integridade");
+          return false;
+        }
+        
+      })
+      .then(data => {
+        if (data == null){ return null;}
+          return data;
+      })
+}
+
+
 export async function getUserByIdServer(id) {
   return await fetch(`http://localhost:8080/client/${id}`, {
         method: 'GET',
@@ -71,7 +109,7 @@ export async function updateUserByIdServer(id, name, email, phone, realName, adr
           address: adress,
           addressNumber: adressNumber,
           district: district
-      })
+        })
 
       }).catch(() => { // erro de conexao com o servidor
         sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
