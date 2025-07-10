@@ -27,6 +27,8 @@ const UserDataChange = () => {
   // Obter dados com o backend
   async function getData(obj){
     var ret = await getUserByIdServer(obj);
+    console.log("Vamos veer o q obvie")
+    console.log(ret);
     setAdress(ret.address);
     setAdressNumber(ret.addressNumber);
     setDistrict(ret.district);
@@ -39,11 +41,12 @@ const UserDataChange = () => {
 
   // Função de carregamento da página
   useEffect(() => {
-    if(obj.length === 1){
+    if(obj.length === 1 || !isNaN(obj) && !isNaN(parseFloat(obj))){
       setId(obj);
       getData(obj);
     }
     else{
+      console.log("Caiu aq, da uma olahda" + obj);
       var ret = JSON.parse(obj)
       setAdress(ret.address);
       setAdressNumber(ret.addressNumber);

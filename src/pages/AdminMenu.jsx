@@ -33,7 +33,7 @@ const AdminMenu = () => {
     { label: 'Emitir nota Fiscal', onClick: () => navigate("/GenInvoice") },
     { label: 'Relatório - Maior valor da estadia do cliente', onClick: () => alert('Relatório Maior Valor') },
     { label: 'Relatório - Menor valor da estadia do cliente', onClick: () => alert('Relatório Menor Valor') },
-    { label: 'Relatório - Totalizar as estadias do cliente', onClick: () => alert('Relatório Totalizador') },
+    { label: 'Relatório - Totalizar as estadias do cliente', onClick: () => navigate('/AllUserStays') },
     { label: 'Limpar banco de dados', onClick: () => requestDeleteBD()}
   ];
 
