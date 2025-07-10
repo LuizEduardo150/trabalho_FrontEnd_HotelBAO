@@ -5,10 +5,11 @@ import { toast } from 'react-toastify';
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthProvider';
+import { getLessExpensiveStayUserServer, getMostExpensiveStayUserServer } from '../queryFunctions/StaysQuery';
 
 const PersonalData = () => {
 
-    const {auth, realName } = useAuth();
+    const {auth, realName, userName } = useAuth();
     const navigate = useNavigate();
 
     const [password, setPasword] = useState('');
@@ -43,16 +44,47 @@ const PersonalData = () => {
     };
 
 
+    async function getStayBy(met){
+        if (met === "up"){
+            var retstay = await getMostExpensiveStayUserServer(userName);
+            alert(`Sua estadia de maior valor foi do quarto: ${retstay.roomName}. Do dia ${retstay.startStay} ao ${retstay.endStay}. Paragando R${retstay.totalStayCost}`);
+        }else{
+            var retstay = await getLessExpensiveStayUserServer(userName);
+            alert(`Sua estadia de menor valor foi do quarto: ${retstay.roomName}. Do dia ${retstay.startStay} ao ${retstay.endStay}. Paragando R${retstay.totalStayCost}`);
+        }
+
+    }
+
+
     const getContentPage = ()=> {
         switch(buttons){
             case 'main':{ return (<>
                 <h1 style={{paddingBottom: '5%'}}>
                     Olá
-                    <span style={{color:'#c586c0'}}> {realName}</span>
-                    , o que deseja alterar em sua conta?
+                    <span style={{color:'#c586c0'}}> {realName} !</span>
                 </h1>
-            
+                
                 <div className='personalDataButtonsSection'>
+                    <button className='personalDataButtons'
+                        onClick={() => navigate('/AllUserStays')}
+                    >
+                        <span>📜</span>
+                        Listar todas minhas estadias
+                    </button>
+
+                    <button className='personalDataButtons'
+                        onClick={() => getStayBy("up")}
+                    >
+                        <span>⬆️</span>
+                        Verificar estadia de maior valor
+                    </button>
+
+                    <button className='personalDataButtons'
+                        onClick={() => getStayBy("down")}
+                    >
+                        <span>⬇️</span>
+                        Verificar estadia de menor valor
+                    </button>
 
                     <button className='personalDataButtons'
                         onClick={()=>{setButtons('password')}}
@@ -61,12 +93,6 @@ const PersonalData = () => {
                         Alterar Senha
                     </button>
 
-                    <button className='personalDataButtons'
-                        onClick={()=>{setButtons('email')}}
-                    >
-                        <span>📧</span>
-                        Alterar e-mail
-                    </button>
                 </div>
             </>);}
 

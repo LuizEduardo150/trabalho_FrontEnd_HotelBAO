@@ -19,6 +19,7 @@ import UserDataChange from './pages/UserDataChange';
 import StaysExibition from './pages/StaysExibition';
 import GenerateInvoicePage from './pages/GenerateInvoicePage';
 import InvoiceStay from './pages/InvoiceStay';
+import ReportAllUserStays from './pages/ReportAllUserStays';
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
         <Route path='/GenInvoice' element={<PrivateRouteADM> <GenerateInvoicePage /> </PrivateRouteADM>} />
 
         <Route path='/UserInvoice/:obj' element={<PrivateRouteADM> <InvoiceStay /> </PrivateRouteADM>} />
+
+        <Route path='/AllUserStays' element={<PrivateRoute> <ReportAllUserStays /> </PrivateRoute>} />
 
       </Routes>
     </AuthProvider>

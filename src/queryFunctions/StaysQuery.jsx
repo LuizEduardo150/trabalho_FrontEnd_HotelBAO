@@ -35,6 +35,9 @@ export async function getAllStaysServer() {
       })
 }
 
+
+
+
 export async function getAllStaysDetailedServer() {
   return await fetch(`http://localhost:8080/stays/det`, {
         method: 'GET',
@@ -83,8 +86,53 @@ export async function getAllStaysDetailOfUserByEmailServer(user_email) {
           if (response == null)
             return false;
           
-          if(response.status === 200){
+          if (response.status == 404){
+            sendToastMessage(1, "Não há dados de estadias cadastrados para esse email");
+            return [];
+          }
+
+          else if(response.status === 200){
               sendToastMessage(0, "Dados carregados");
+              return response.json();
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Erro", 10000);
+              return false
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+              return false;
+          }
+      })
+      .then(data => {
+        if (data === null || data === false){
+             return null;
+        }
+          return data;
+      })
+}
+
+
+export async function getAllStaysDetailOfUserByUserName(userName) {
+  return await fetch(`http://localhost:8080/stays/UstaysBUname/${userName}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return false;
+          
+          if (response.status == 404){
+            sendToastMessage(1, "Não há dados de estadias cadastrados para esse usuário");
+            return [];
+          }
+
+          else if(response.status === 200){
+              sendToastMessage(0, "Dados do usuário carregados");
               return response.json();
           }
           else if(response.status === 400){
@@ -290,5 +338,80 @@ export async function deleteAllStaysServer() {
         else{
           sendToastMessage(1, "Erro de integridade");
         }
+      })
+}
+
+
+export async function getMostExpensiveStayUserServer(userName) {
+  return await fetch(`http://localhost:8080/stays/usrMExStay/${userName}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return false;
+          
+          if(response.status === 200){
+              return response.json();
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Erro", 10000);
+              return false
+          }
+          else if(response.status === 404){
+              sendToastMessage(1, "Usuário não encontrado", 10000);
+              return false
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+              return false;
+          }
+      })
+      .then(data => {
+        if (data === null || data === false){
+             return null;
+        }
+          return data;
+      })
+}
+
+export async function getLessExpensiveStayUserServer(userName) {
+  return await fetch(`http://localhost:8080/stays/usrLExStay/${userName}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return false;
+          
+          if(response.status === 200){
+              return response.json();
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Erro", 10000);
+              return false
+          }
+          else if(response.status === 404){
+              sendToastMessage(1, "Usuário não encontrado", 10000);
+              return false
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+              return false;
+          }
+      })
+      .then(data => {
+        if (data === null || data === false){
+             return null;
+        }
+          return data;
       })
 }
