@@ -247,6 +247,7 @@ input:focus {
     border-radius: 5px;
     margin-right: 2%;
     padding: 10px;
+    cursor: pointer;
 }
 
 .cofirmButton{
@@ -293,3 +294,15 @@ input:focus {
     border-radius: 20px;
 }
 
+.staysButtonList:hover {
+  background-color: rgba(100, 204, 153, 0.548);
+  color: rgb(0, 0, 0);
+  border: 0 none;
+}
+
+
+.invoiceStay{
+    background:rgba(255, 255, 255, 0.4);
+    
+
+}

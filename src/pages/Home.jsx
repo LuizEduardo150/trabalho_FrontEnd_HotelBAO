@@ -11,6 +11,7 @@ function Home() {
   const [mostrarSubtitulo, setMostrarSubtitulo] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [error_c, serErrorC] = useState(null);
   const navigate = useNavigate();
 
   // subtítulo com atraso de carregamento
@@ -53,11 +54,14 @@ function Home() {
         headers: {'Content-Type': 'application/json'},
       }).catch(() => {
         // erro de conexao com o servidor
-        setRooms([]);
+        serErrorC(true);
         return null;
       })
       .then(response => {
-        if (response == null){ return null;}  
+        if (response == null)
+           return null;
+        
+        serErrorC(false);
         return response.json()
       })
       .then(data => {
@@ -73,7 +77,13 @@ function Home() {
 
   // Construir cards dos quartos
   const roomsTable = useMemo(() => {
-    if (rooms.length === 0){
+    if(error_c === null){
+      return <div>Carregando...</div>
+    }
+    else if(!error_c && rooms.length == 0){
+      return <div>Ainda não há cadastro de quartos no sistema</div>
+    }
+    else if (rooms.length === 0){
       return <ErrorComponent />
     }else{
       return rooms.map((room) => {
@@ -86,7 +96,7 @@ function Home() {
         />)
       });
     }    
-  }, [refresh, rooms]);
+  }, [refresh, rooms, error_c]);
 
 
   return (<div>

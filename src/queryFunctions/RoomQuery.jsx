@@ -137,7 +137,34 @@ export async function updateRoomByIdServer(id, nameR, price, beds, score) {
             sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
             return false;
         }
-    })
+    })  
+}
 
-  
+
+export async function deleteAllRoomsServer() {
+  return await fetch('http://localhost:8080/room/dltallsure0-0', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+      }).catch(() => {
+        // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe! Estamos enfrentando problemas internos. Tente novamente mais tarde.");
+        return null;
+      })
+      .then(response => {
+        if(response === null)
+          return null;
+        
+        if (response.status === 200){
+          sendToastMessage(0, "OK! quartos deletados");
+        }
+        else if (response.status === 400){
+          sendToastMessage(1, "Impossível executar comando");
+        }
+        else if (response.status === 404){
+          sendToastMessage(1, "ERRo, rota bloqueada");
+        }
+        else{
+          sendToastMessage(1, "Erro de integridade");
+        }
+      })
 }

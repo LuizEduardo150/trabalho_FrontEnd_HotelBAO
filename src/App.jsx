@@ -17,6 +17,9 @@ import RoomPage from './pages/RoomPage';
 import CustonHeader from './components/CustomHeader';
 import UserDataChange from './pages/UserDataChange';
 import StaysExibition from './pages/StaysExibition';
+import GenerateInvoicePage from './pages/GenerateInvoicePage';
+import InvoiceStay from './pages/InvoiceStay';
+
 
 function App() {
   return (
@@ -47,6 +50,10 @@ function App() {
         <Route path='/editUserData/:obj' element={<PrivateRouteADM> <UserDataChange /> </PrivateRouteADM>} />
 
         <Route path='/stays' element={<PrivateRouteADM> <StaysExibition /> </PrivateRouteADM>} />
+
+        <Route path='/GenInvoice' element={<PrivateRouteADM> <GenerateInvoicePage /> </PrivateRouteADM>} />
+
+        <Route path='/UserInvoice/:obj' element={<PrivateRouteADM> <InvoiceStay /> </PrivateRouteADM>} />
 
       </Routes>
     </AuthProvider>

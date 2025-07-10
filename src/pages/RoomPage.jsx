@@ -97,7 +97,7 @@ const RoomPage = () => {
           var end = getDateObject(stay.endStay);
           
           var current = new Date(init);
-          while (current <= end){
+          while (current <= end){ // preencher o intervalo das datas
             vect.push(new Date(current));
             current.setDate(current.getDate() + 1);
           }
@@ -278,7 +278,7 @@ const RoomPage = () => {
           
             :
               <div style={{color: 'pink', fontSize:'x-large', paddingTop:'2%', paddingBottom:'2%'}}>
-                Registre-se para fazer estadias!
+                Cadastre-se para fazer estadias!
               </div>
             
             }
