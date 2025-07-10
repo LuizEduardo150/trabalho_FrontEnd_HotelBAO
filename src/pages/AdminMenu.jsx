@@ -1,22 +1,36 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { deleteAllRoomsServer } from '../queryFunctions/RoomQuery';
+import { deleteAllStaysServer } from '../queryFunctions/StaysQuery';
+import { deleteAllUsersServer } from '../queryFunctions/UserQuery';
+
+import { useAuth } from '../AuthProvider'; 
+
 import '/src/App.css';
 
 const AdminMenu = () => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
-  function requestDeleteBD(){
-      const confirmar = confirm("Tem certeza que deseja apagar todo o banco de dados?");
-      if (confirmar)
-        alert('Banco de dados deve ser apagado!');
+  async function requestDeleteBD(){
+      const confirmar = confirm("Tem certeza que deseja apagar todo o banco de dados? Isso removerá até mesmo os usuários administradores!");
+      if (confirmar){
+        await deleteAllStaysServer();
+        await deleteAllRoomsServer();
+        await deleteAllUsersServer();
+        logout();
+      }
   }
+
+
 
 
   const actions = [
     { label: 'Cadastro de Usuários', onClick: () => navigate('/ManageUser') },
     { label: 'Cadastro de Quartos', onClick: () => navigate('/rooms') },
     { label: 'Listar Estadias cadastradas', onClick: () => navigate('/stays') },
-    { label: 'Emitir nota Fiscal', onClick: () => alert('Emitir Nota Fiscal') },
+    { label: 'Emitir nota Fiscal', onClick: () => navigate("/GenInvoice") },
     { label: 'Relatório - Maior valor da estadia do cliente', onClick: () => alert('Relatório Maior Valor') },
     { label: 'Relatório - Menor valor da estadia do cliente', onClick: () => alert('Relatório Menor Valor') },
     { label: 'Relatório - Totalizar as estadias do cliente', onClick: () => alert('Relatório Totalizador') },

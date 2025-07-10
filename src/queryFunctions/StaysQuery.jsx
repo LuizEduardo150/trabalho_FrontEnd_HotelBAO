@@ -70,6 +70,41 @@ export async function getAllStaysDetailedServer() {
 }
 
 
+export async function getAllStaysDetailOfUserByEmailServer(user_email) {
+  return await fetch(`http://localhost:8080/stays/UstaysBMail/${user_email}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return false;
+          
+          if(response.status === 200){
+              sendToastMessage(0, "Dados carregados");
+              return response.json();
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Erro", 10000);
+              return false
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+              return false;
+          }
+      })
+      .then(data => {
+        if (data === null || data === false){
+             return null;
+        }
+          return data;
+      })
+}
+
+
 export async function insertNewStayServer(userId, roomId, startStay, endStay) {
   return await fetch(`http://localhost:8080/stays`, {
         method: 'POST',
@@ -137,5 +172,123 @@ export async function getAllStaysOfARoomByRoomIdServer(id) {
              return null;
         }
           return data;
+      })
+}
+
+
+export async function getAllStaysDetailWTOTUserInfoServer(id) {
+  return await fetch(`http://localhost:8080/stays/staysDWTOUserD/${id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return false;
+          
+          if(response.status === 200){
+              return response.json();
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Erro", 10000);
+              return false
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+              return false;
+          }
+      })
+      .then(data => {
+        if (data === null || data === false){
+             return null;
+        }
+          return data;
+      })
+}
+
+export async function updateStayEndStartDateById(id, start, end) {
+  return await fetch(`http://localhost:8080/stays/${id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+
+        body: JSON.stringify({
+          startStay: start,
+          endStay: end
+        })
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return null;
+          
+          if(response.status === 200){
+              sendToastMessage(0, "A estadia foi atualizada");
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Erro com o cadastro do quarto.");
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+          }
+      })
+}
+
+export async function deleteStayByIdServer(id) {
+  return await fetch(`http://localhost:8080/stays/${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .catch(() => { // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe. Estamos enfrentando problemas internos! Volte mais tarde.", 10000);
+        return null;
+      })
+      .then(response => {
+          if (response == null)
+            return null;
+          
+          if(response.status === 200){
+              sendToastMessage(0, "A estadia foi cancelada e removida do sistema");
+          }
+          else if(response.status === 400){
+              sendToastMessage(1, "Não é possível deletar estadia.");
+          }
+          else if(response.status === 500){
+              sendToastMessage(1, "OPS!. Ocorreu um problema interno!", 10000);
+          }
+      })
+}
+
+
+export async function deleteAllStaysServer() {
+  return await fetch('http://localhost:8080/stays/dltallsure0-0', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+      }).catch(() => {
+        // erro de conexao com o servidor
+        sendToastMessage(1, "Desculpe! Estamos enfrentando problemas internos. Tente novamente mais tarde.");
+        return null;
+      })
+      .then(response => {
+        if(response === null)
+          return null;
+        
+        if (response.status === 200){
+          sendToastMessage(0, "OK! estadias deletas");
+        }
+        else if (response.status === 400){
+          sendToastMessage(1, "Impossível executar comando");
+        }
+        else if (response.status === 404){
+          sendToastMessage(1, "ERRo, rota bloqueada");
+        }
+        else{
+          sendToastMessage(1, "Erro de integridade");
+        }
       })
 }
